@@ -4,38 +4,52 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script type="text/javascript">
+        function Remove(id, obj)
+        {
+            {#if (obj == "factor")
+            {
+                $("#factor_form").attr("action", "{{ path('factor_edit', {'action': 'remove'}) }}");
+            }
+            else
+            {
+                $("#type_form").attr("action", "{{ path('type_edit', {'action': 'remove'}) }}");
+            }#}
+            $("#idObject").val(id);
+            document.forms['object_form'].submit();
+        }
+    </script>
 {% endblock %}
 
 {% block content %}
     <h1 class="page-header">Каталог объявлений</h1>
-    <table class="table table-bordered table-hover table-striped">
-        <thead>
-            <tr>
-                <th></th>
-                <th>Тип объекта</th>
-                <th>Адрес</th>
-                <th>Стоимость</th>
-                <th>Телефон</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for obj in objects %}
+    <form action="{{ path('_advEdit', {action: 'remove'}) }}" method="POST" id="object_form">
+        <input type="hidden" id="idObject" name="idObject" value="0"/>
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
                 <tr>
-                    <td width="8%">
-                        <a href="#"><i class="fa fa-fw fa-plus"></i></a>
-                        <a href="#"><i class="fa fa-fw fa-edit"></i></a> 
-                        <a href="#"><i class="fa fa-fw fa-remove"></i></a>
-                    </td>
-                    <td width="100px">{{ obj.type }}</td>
-                    <td width="250px">{{ obj.address }}</td>
-                    <td width="100px">{{ obj.price }} руб.</td>
-                    <td width="100px">{{ obj.phone }}</td>
+                    <th></th>
+                    <th>Тип объекта</th>
+                    <th>Адрес</th>
+                    <th>Стоимость</th>
+                    <th>Телефон</th>
                 </tr>
-            {% endfor %}
-            <tr>
-                
-                
-            </tr>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for obj in objects %}
+                    <tr>
+                        <td width="8%">
+                            <a href="#"><i class="fa fa-fw fa-plus"></i></a>
+                            <a href="#"><i class="fa fa-fw fa-edit"></i></a> 
+                            <a href="#" onclick="Remove({{ obj.id }});"><i class="fa fa-fw fa-remove"></i></a>
+                        </td>
+                        <td width="100px">{{ obj.type }}</td>
+                        <td width="250px">{{ obj.address }}</td>
+                        <td width="100px">{{ obj.price }} руб.</td>
+                        <td width="100px">{{ obj.phone }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </form>
 {% endblock %}

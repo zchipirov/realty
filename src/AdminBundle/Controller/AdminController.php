@@ -26,8 +26,32 @@ class AdminController extends Controller
         {
             $objects = AdminModel::getObjects();
         }
+        AdminModel::closeConnect();
         return $this->render('AdminBundle:Admin:adv.html.twig', 
                 array('page'=>'adv', 'objects'=>$objects));
+    }
+    
+    public function EditAdvAction($action)
+    {
+        $request = $this->getRequest();
+        
+        switch($action)
+        {
+            case "edit":
+                break;
+            case "add":
+                break;
+            case "remove":
+                AdminModel::setConnect();
+                if (AdminModel::isConnected())
+                {
+                    $IDobj = $request->request->get("idObject");
+                    AdminModel::removeObject($IDobj);
+                }
+                AdminModel::closeConnect();
+            break;
+        }
+        return $this->redirect($this->generateUrl('_adv', array('message'=>"Объявление удалено.")), 301);
     }
     
     public function advAddAction()

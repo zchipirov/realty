@@ -9,6 +9,10 @@ _users:
 _adv:
     pattern: /admin/adv/
     defaults: { _controller: AdminBundle:Admin:adv }
+
+_advEdit:
+    pattern: /admin/adv/{action}
+    defaults: { _controller: AdminBundle:Admin:EditAdv, action: 'edit' }    
     
 _advAdd:
     pattern: /admin/adv/add

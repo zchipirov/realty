@@ -13,6 +13,13 @@ class AdminModel extends CModel
         return $array;
     }
     
+    public static function removeObject($id)
+    {
+        $sql = "DELETE FROM objects WHERE id=$id";
+        echo $sql;
+        return self::mysqlQuery($sql);
+    }
+    
     public static function getCityById($id)
     {
         $sql = "SELECT id, city, IDregion FROM cities WHERE id=$id";

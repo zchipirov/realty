@@ -57,6 +57,12 @@
                 <!-- Page Heading -->
                 <div class="row">
                     <div class="col-lg-12">
+                        {% if message is defined %}
+                            <div class="alert alert-success">
+                                <strong>Готово!</strong>
+                                {{ message }}
+                            </div>
+                        {% endif %}
                         {% block content %}{% endblock %}
                     </div>
                 </div>
