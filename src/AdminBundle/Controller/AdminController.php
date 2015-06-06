@@ -56,7 +56,7 @@ class AdminController extends Controller
     
     public function advAddAction()
     {
-        return $this->render('AdminBundle:Admin:advAdd.html.twig', array('page'=>'adv'));
+        return $this->render('AdminBundle:Admin:advAdd.html.twig', array('page'=>'adv', 'action'=>'add'));
     }
     
     public function advStatAction()

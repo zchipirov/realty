@@ -7,5 +7,6 @@
 {% endblock %}
 
 {% block content %}
-    <h1 class="page-header">AdvAdd</h1>
+    <h1 class="page-header">{%if action is defined and action=='add' %}Добавление{% else %}Редактирование{% endif %} объявления</h1>
+    
 {% endblock %}
