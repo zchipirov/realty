@@ -1,0 +1,21 @@
+<h1 class="page-header">Авторизация</h1>
+<form action="{{ path("_login", {'action': 'login'}) }}" method="post" id="login">
+    <table>
+        <tr>
+            <td>Логин:</td>
+            <td><input type="text" id="login" name="login" /></td>
+        </tr>
+        <tr>
+            <td>Пароль:</td>
+            <td><input type="password" id="passwd" name="passwd" /></td>
+        </tr>
+    </table>
+    <br>
+    <button type="submit" class="sf-button">
+        <span class="border-l">
+            <span class="border-r">
+                <span class="btn-bg">Вход</span>
+            </span>
+        </span>
+    </button>
+</form>

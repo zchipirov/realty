@@ -1,0 +1,41 @@
+{% extends 'AdminBundle::layout.html.twig' %}
+
+{% block title 'Панель администратора. Объявления' %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <h1 class="page-header">Каталог объявлений</h1>
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Тип объекта</th>
+                <th>Адрес</th>
+                <th>Стоимость</th>
+                <th>Телефон</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for obj in objects %}
+                <tr>
+                    <td width="8%">
+                        <a href="#"><i class="fa fa-fw fa-plus"></i></a>
+                        <a href="#"><i class="fa fa-fw fa-edit"></i></a> 
+                        <a href="#"><i class="fa fa-fw fa-remove"></i></a>
+                    </td>
+                    <td width="100px">{{ obj.type }}</td>
+                    <td width="250px">{{ obj.address }}</td>
+                    <td width="100px">{{ obj.price }} руб.</td>
+                    <td width="100px">{{ obj.phone }}</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                
+                
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

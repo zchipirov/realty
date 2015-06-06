@@ -1,0 +1,6 @@
+app:
+    resource: "@AdminBundle/Controller/"
+    type:     annotation
+    
+_admin:
+    resource: "@AdminBundle/Resources/config/routing.yml"

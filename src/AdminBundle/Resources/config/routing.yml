@@ -1,0 +1,27 @@
+_home:
+    pattern:  /admin/
+    defaults: { _controller: AdminBundle:Admin:index }
+ 
+_users:
+    pattern: /admin/users/
+    defaults: { _controller: AdminBundle:Admin:users }
+    
+_adv:
+    pattern: /admin/adv/
+    defaults: { _controller: AdminBundle:Admin:adv }
+    
+_advAdd:
+    pattern: /admin/adv/add
+    defaults: { _controller: AdminBundle:Admin:advAdd }
+    
+_advStat:
+    pattern: /admin/adv/stat
+    defaults: { _controller: AdminBundle:Admin:advStat }
+    
+_login:
+    pattern:  /admin/login/{action}
+    defaults: { _controller: AdminBundle:Auth:auth, action: 'load' }
+
+_logout:
+    pattern:  /admin/logout
+    defaults: { _controller: AdminBundle:Auth:logout }
