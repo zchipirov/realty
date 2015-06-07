@@ -1,0 +1,35 @@
+{% extends 'AdminBundle::layout.html.twig' %}
+
+{% block title 'Панель администратора. Объявления' %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <h1 class="page-header">{%if action is defined and action=='add' %}Добавление{% else %}Редактирование{% endif %} пользователя</h1>
+    <form action="{{ path('_usersEdit', {action: 'add2'}) }}" method="POST" id="user_form">
+        {%if action is defined and action=='edit' %}
+            <input type="hidden" id="idUser" name="idUser" value="{{ user.id }}"/>
+        {% endif %}
+        <table width="80%" >
+            <tr>
+                <td width="30%">Логин:</td>
+                <td style="margin: 5px; padding: 5px;"><input class="form-control" style="width: 100%;" id="login" name="login" value="{% if user is defined %}{{ user.login }}{% endif %}"/></td>
+            </tr>
+            <tr>
+                <td>Пароль:</td>
+                <td style="margin: 5px; padding: 5px;"><input class="form-control" type="password" style="width: 100%;" id="passwd" name="passwd" value="{% if user is defined %}{{ user.passwd }}{% endif %}"/></td>
+            </tr>
+            <tr>
+                <td>Повторите пароль:</td>
+                <td style="margin: 5px; padding: 5px;"><input class="form-control" type="password" style="width: 100%;" id="passwd2" name="passwd2" value="{% if user is defined %}{{ user.passwd }}{% endif %}"/></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="margin: 5px; padding: 5px;"><input class="btn btn-default" type="submit"></input></td>
+            </tr>
+        </table>
+        
+    </form>
+{% endblock %}

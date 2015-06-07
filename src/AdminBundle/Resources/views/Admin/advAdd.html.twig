@@ -4,9 +4,102 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script type="text/javascript">
+        {% if object is defined %}Show();{% endif %}
+        function Show()
+        {
+            if ($("#type").val() == 0 || $("#type").val() == 2 || $("#type").val() == 3)
+            {
+                $("#_rooms").show('slow');
+            }
+            else
+            {
+                $("#_rooms").hide('slow');
+            }
+        }
+    </script>
 {% endblock %}
 
 {% block content %}
     <h1 class="page-header">{%if action is defined and action=='add' %}Добавление{% else %}Редактирование{% endif %} объявления</h1>
-    
+    <form action="{{ path('_advEdit', {action: 'add2'}) }}" method="POST" id="add_form">
+        {%if action is defined and action=='edit' %}
+            <input type="hidden" id="idObject" name="idObject" value="{{ object.id }}"/>
+        {% endif %}
+        <table width="80%" >
+            <tr>
+                <td width="30%">Заголовок объявления:</td>
+                <td style="margin: 5px; padding: 5px;"><input class="form-control" style="width: 100%;" id="title" name="title" value="{% if object is defined %}{{ object.title }}{% endif %}"/></td>
+            </tr>
+            <tr>
+                <td>Тип объявления:</td>
+                <td style="margin: 5px; padding: 5px;">
+                    <select id="type" name="type" class="form-control" style="width: 80%;" onchange="Show();">
+                        <option value="-1" >---</option>
+                        <option value="0" {% if object is defined and object.stype==0 %}selected{% endif %}>квартира</option>
+                        <option value="1" {% if object is defined and object.stype==1 %}selected{% endif %}>комната</option>
+                        <option value="2" {% if object is defined and object.stype==2 %}selected{% endif %}>дача</option>
+                        <option value="3" {% if object is defined and object.stype==3 %}selected{% endif %}>дом</option>
+                        <option value="4" {% if object is defined and object.stype==4 %}selected{% endif %}>гараж</option>
+                        <option value="5" {% if object is defined and object.stype==5 %}selected{% endif %}>земельный участок</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Вид объекта:</td>
+                <td style="margin: 5px; padding: 5px;">
+                    <select id="view" name="view" class="form-control" style="width: 80%;">
+                        <option value="-1">---</option>
+                        <option value="0" {% if object is defined and object.status==0 %}selected{% endif %}>новостройка</option>
+                        <option value="1" {% if object is defined and object.status==1 %}selected{% endif %}>вторичка</option>
+                        <option value="2" {% if object is defined and object.status==2 %}selected{% endif %}>другое</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Опции:</td>
+                <td style="margin: 5px; padding: 5px;">
+                    <select id="option" name="option" class="form-control" style="width: 80%;">
+                        <option value="-1">---</option>
+                        <option value="0" {% if object is defined and object.soption==0 %}selected{% endif %}>аренда в сутки</option>
+                        <option value="1" {% if object is defined and object.soption==1 %}selected{% endif %}>аренда в месяц</option>
+                        <option value="2" {% if object is defined and object.soption==2 %}selected{% endif %}>продажа</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Площадь (м2):</td>
+                <td style="margin: 5px; padding: 5px;"><input class="form-control" style="width: 100%;" id="area" name="area" value="{% if object is defined %}{{ object.area }}{% endif %}"/></td>
+            </tr>
+            <tr id="_rooms" style="display: none;">
+                <td>Количество комнат:</td>
+                <td style="margin: 5px; padding: 5px;"><input class="form-control" style="width: 100%;" id="rooms" name="rooms" value="{% if object is defined %}{{ object.rooms }}{% endif %}"/></td>
+            </tr>
+            <tr>
+                <td>Адрес:</td>
+                <td style="margin: 5px; padding: 5px;"><input class="form-control" style="width: 100%;" id="address" name="address" value="{% if object is defined %}{{ object.address }}{% endif %}"/></td>
+            </tr>
+            <tr>
+                <td>Описание:</td>
+                <td style="margin: 5px; padding: 5px;">
+                    <textarea class="form-control" rows="3" id="desc" name="desc">{% if object is defined %}{{ object.sdesc }}{% endif %}</textarea>
+                </td>
+            </tr>
+             <tr>
+                <td>Стоимость (руб.):</td>
+                <td style="margin: 5px; padding: 5px;"><input class="form-control" style="width: 80%;" id="price" name="price" value="{% if object is defined %}{{ object.price }}{% endif %}"/></td>
+            </tr>
+            <tr>
+                <td>Телефон:</td>
+                <td style="margin: 5px; padding: 5px;"><input class="form-control" style="width: 80%;" id="phone" name="phone" value="{% if object is defined %}{{ object.phone }}{% endif %}"/></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="margin: 5px; padding: 5px;"><input class="btn btn-default" type="submit"></input></td>
+            </tr>
+        </table>
+         
+         
+        
+    </form>
 {% endblock %}

@@ -5,16 +5,18 @@
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript">
-        function Remove(id, obj)
+        function Remove(id)
         {
-            {#if (obj == "factor")
+            if (confirm("Удалить объявление?"))
             {
-                $("#factor_form").attr("action", "{{ path('factor_edit', {'action': 'remove'}) }}");
+                $("#object_form").attr("action", "{{ path('_advEdit', {'action': 'remove'}) }}");
+                $("#idObject").val(id);
+                document.forms['object_form'].submit();
             }
-            else
-            {
-                $("#type_form").attr("action", "{{ path('type_edit', {'action': 'remove'}) }}");
-            }#}
+        }
+        function Edit(id)
+        {
+            $("#object_form").attr("action", "{{ path('_advEdit', {'action': 'edit'}) }}");
             $("#idObject").val(id);
             document.forms['object_form'].submit();
         }
@@ -28,7 +30,7 @@
         <table class="table table-bordered table-hover table-striped">
             <thead>
                 <tr>
-                    <th></th>
+                    <th><a href="{{ path('_advEdit', {action: 'add'}) }}"><i class="fa fa-fw fa-plus"></i></a></th>
                     <th>Тип объекта</th>
                     <th>Адрес</th>
                     <th>Стоимость</th>
@@ -39,11 +41,11 @@
                 {% for obj in objects %}
                     <tr>
                         <td width="8%">
-                            <a href="#"><i class="fa fa-fw fa-plus"></i></a>
-                            <a href="#"><i class="fa fa-fw fa-edit"></i></a> 
+                            
+                            <a href="#" onclick="Edit({{ obj.id }});"><i class="fa fa-fw fa-edit"></i></a> 
                             <a href="#" onclick="Remove({{ obj.id }});"><i class="fa fa-fw fa-remove"></i></a>
                         </td>
-                        <td width="100px">{{ obj.type }}</td>
+                        <td width="100px">{{ obj.stype }}</td>
                         <td width="250px">{{ obj.address }}</td>
                         <td width="100px">{{ obj.price }} руб.</td>
                         <td width="100px">{{ obj.phone }}</td>

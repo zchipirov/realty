@@ -149,7 +149,7 @@ class CModel
         $upd = substr($upd, 0, strlen($upd) - 1);
 
         $sql = "INSERT INTO `$table` ($cols) VALUES ($vals) ON DUPLICATE KEY UPDATE $upd";
-
+echo $sql;
         if (self::mysqlQuery($sql))
             return 0;
         return self::getLastError();

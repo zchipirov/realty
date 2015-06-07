@@ -4,8 +4,48 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script type="text/javascript">
+        function Remove(id)
+        {
+            if (confirm("Удалить пользователя?"))
+            {
+                $("#user_form").attr("action", "{{ path('_usersEdit', {'action': 'remove'}) }}");
+                $("#idUser").val(id);
+                document.forms['user_form'].submit();
+            }
+        }
+        function Edit(id)
+        {
+            $("#user_form").attr("action", "{{ path('_usersEdit', {'action': 'edit'}) }}");
+            $("#idUser").val(id);
+            document.forms['user_form'].submit();
+        }
+    </script>
 {% endblock %}
 
 {% block content %}
-    <h1 class="page-header">Users</h1>
+    <h1 class="page-header">Администраторы системы</h1>
+    <form action="{{ path('_usersEdit', {action: 'remove'}) }}" method="POST" id="user_form">
+        <input type="hidden" id="idUser" name="idUser" value="-1"/>
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th><a href="{{ path('_usersEdit', {action: 'add'}) }}"><i class="fa fa-fw fa-plus"></i></a></th>
+                    <th>Логин</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for usr in users %}
+                    <tr>
+                        <td width="8%">
+                            
+                            <a href="#" onclick="Edit({{ usr.id }});"><i class="fa fa-fw fa-edit"></i></a> 
+                            <a href="#" onclick="Remove({{ usr.id }});"><i class="fa fa-fw fa-remove"></i></a>
+                        </td>
+                        <td width="100px">{{ usr.login }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </form>
 {% endblock %}

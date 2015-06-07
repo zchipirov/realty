@@ -6,20 +6,20 @@ _users:
     pattern: /admin/users/
     defaults: { _controller: AdminBundle:Admin:users }
     
+_usersEdit:
+    pattern: /admin/users/{action}
+    defaults: { _controller: AdminBundle:Admin:EditUsers }   
+    
 _adv:
     pattern: /admin/adv/
     defaults: { _controller: AdminBundle:Admin:adv }
 
 _advEdit:
     pattern: /admin/adv/{action}
-    defaults: { _controller: AdminBundle:Admin:EditAdv, action: 'edit' }    
-    
-_advAdd:
-    pattern: /admin/adv/add
-    defaults: { _controller: AdminBundle:Admin:advAdd }
+    defaults: { _controller: AdminBundle:Admin:EditAdv }    
     
 _advStat:
-    pattern: /admin/adv/stat
+    pattern: /admin/adv/stat/
     defaults: { _controller: AdminBundle:Admin:advStat }
     
 _login:
