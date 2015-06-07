@@ -7,3 +7,4 @@
 /app/phpunit.xml
 /bin/
 /composer.phar
+/vendor/

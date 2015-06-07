@@ -4,3 +4,6 @@ app:
     
 _admin:
     resource: "@AdminBundle/Resources/config/routing.yml"
+    
+_web:
+    resource: "@WebBundle/Resources/config/routing.yml"
