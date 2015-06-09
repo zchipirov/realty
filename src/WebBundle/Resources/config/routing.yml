@@ -1,3 +1,27 @@
 _index:
     pattern:  /
     defaults: { _controller: WebBundle:Web:index }
+
+_about:
+    pattern:  /about
+    defaults: { _controller: WebBundle:Web:about }
+    
+_catalog:
+    pattern:  /catalog
+    defaults: { _controller: WebBundle:Web:catalog }
+    
+_contact:
+    pattern:  /contact
+    defaults: { _controller: WebBundle:Web:contact }
+    
+_filter:
+    pattern:  /catalog/filter
+    defaults: { _controller: WebBundle:Web:filter }
+    
+_item:
+    pattern:  /item
+    defaults: { _controller: WebBundle:Web:item }
+    
+_remove_ajax:
+    pattern:  /photos/remove
+    defaults: { _controller: AdminBundle:Admin:remove }

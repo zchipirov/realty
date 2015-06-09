@@ -118,6 +118,18 @@ class AdminController extends Controller
                     if ($idobject != -1)
                         $params["id"] = $idobject;
                     AdminModel::update("objects", $params);
+                    
+                    $fileElementName = 'fileToUpload';
+                    $i = 0;
+                    $files_count = sizeof($_FILES[$fileElementName]["name"]);
+                    $lid = $idobject != -1? $idobject: AdminModel::getLastInsertID();
+                    
+                    for ($i = 0; $i < $files_count-1; $i++) {	
+                        move_uploaded_file($_FILES[$fileElementName]['tmp_name'][$i], "C:/Apache24/htdocs/realty/web/bundles/admin/uploads/" . $_FILES[$fileElementName]['name'][$i]);
+                        AdminModel::update("photo", array("Idobject"=>$lid, "path"=>"/realty/web/bundles/admin/uploads/" . $_FILES[$fileElementName]['name'][$i]));
+                    }
+                    //for security reason, we force to remove all uploaded file
+                    @unlink($_FILES[$fileElementName][$i]);
                 }
                 AdminModel::closeConnect();
                 return $this->redirect($this->generateUrl('_adv'), 301);
@@ -128,9 +140,10 @@ class AdminController extends Controller
                 {
                     $IDobj = $request->request->get("idObject");
                     $object = AdminModel::getObjectById($IDobj);
+                    $photos = AdminModel::getPhotosById($IDobj);
                 }
                 AdminModel::closeConnect();
-                return $this->render('AdminBundle:Admin:advAdd.html.twig', array('page'=>'adv', 'action'=>'edit', 'object'=>$object));
+                return $this->render('AdminBundle:Admin:advAdd.html.twig', array('page'=>'adv', 'action'=>'edit', 'object'=>$object, 'photos'=>$photos));
                 break;
             case "add":
                 return $this->render('AdminBundle:Admin:advAdd.html.twig', array('page'=>'adv', 'action'=>'add'));
@@ -158,5 +171,19 @@ class AdminController extends Controller
         }
         AdminModel::closeConnect();
         return $this->render('AdminBundle:Admin:advStat.html.twig', array('page'=>'adv', 'objects'=>  count($objects), 'users'=>count($users)));
+    }
+    
+    public function removeAction()
+    {
+        $request = $this->getRequest();
+        $id = $request->request->get("id");
+        
+        AdminModel::setConnect();
+        if (AdminModel::isConnected())
+        {
+            AdminModel::removePhotos($id);
+        }
+        AdminModel::closeConnect();
+        return new \Symfony\Component\HttpFoundation\Response("");
     }
 }

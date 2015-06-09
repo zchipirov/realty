@@ -4,25 +4,93 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/admin/js/jquery-1.3.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/admin/js/jquery.MultiFile.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/admin/js/jquery.form.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/admin/js/jquery.blockUI.js') }}"></script>
     <script type="text/javascript">
         {% if object is defined %}Show();{% endif %}
         function Show()
         {
             if ($("#type").val() == 0 || $("#type").val() == 2 || $("#type").val() == 3)
             {
-                $("#_rooms").show('slow');
+                $("#_rooms").css('display', "table-row");
             }
             else
             {
-                $("#_rooms").hide('slow');
+                $("#_rooms").css('display', "none");
+            }
+        }
+        function Remove(id)
+        {
+            var id = 'id='+id;
+            try
+            {
+                $.ajax({
+                    type: "POST",
+                    url: "{{ path('_remove_ajax') }}",
+                    data: id,
+                    success: function(msg)
+                    {
+                        $("#ph_"+id).css("display", "none");
+                    }
+                });
+            }
+            catch (exc)
+            {
+                alert(exc);
             }
         }
     </script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.MultiFile').MultiFile({ 
+                accept:'jpg|gif|bmp|png', max:15, STRING: { 
+                        remove:'удалить',
+                        file:'$file', 
+                        selected:'Выбраны: $file', 
+                        denied:'Неверный тип файла: $ext!', 
+                        duplicate:'Этот файл уже выбран:\n$file!' 
+                } 
+        });		  
+
+        $("#loading").ajaxStart(function(){
+                $(this).show();
+        })
+        .ajaxComplete(function(){
+                $(this).hide();
+        });
+
+
+        $('#uploadForm').ajaxForm({
+                beforeSubmit: function(a,f,o) {
+                        o.dataType = "html";
+                        $('#uploadOutput').html('Submitting...');
+                },
+                success: function(data) {
+                        var $out = $('#uploadOutput');
+                        $out.html('Form success handler received: <strong>' + typeof data + '</strong>');
+                        if (typeof data == 'object' && data.nodeType)
+                                data = elementToString(data.documentElement, true);
+                        else if (typeof data == 'object')
+                                data = objToString(data);
+                        $out.append('<div><pre>'+ data +'</pre></div>');
+                }
+        });
+        
+        
+        
+        
+        
+        });
+        
+        
+        </script>
 {% endblock %}
 
 {% block content %}
     <h1 class="page-header">{%if action is defined and action=='add' %}Добавление{% else %}Редактирование{% endif %} объявления</h1>
-    <form action="{{ path('_advEdit', {action: 'add2'}) }}" method="POST" id="add_form">
+    <form action="{{ path('_advEdit', {action: 'add2'}) }}" method="POST" id="add_form" enctype="multipart/form-data">
         {%if action is defined and action=='edit' %}
             <input type="hidden" id="idObject" name="idObject" value="{{ object.id }}"/>
         {% endif %}
@@ -94,12 +162,26 @@
                 <td style="margin: 5px; padding: 5px;"><input class="form-control" style="width: 80%;" id="phone" name="phone" value="{% if object is defined %}{{ object.phone }}{% endif %}"/></td>
             </tr>
             <tr>
+                <td>Фото:</td>
+                <td style="margin: 5px; padding: 5px;">
+                    <input name="fileToUpload[]" id="fileToUpload" class="MultiFile" type="file"/>
+                </td>
+            </tr>
+            <tr>
                 <td></td>
                 <td style="margin: 5px; padding: 5px;"><input class="btn btn-default" type="submit"></input></td>
             </tr>
         </table>
-         
-         
+        <img id="loading" src="{{ asset('bundles/admin/img/loading.gif') }}" style="display:none;"/>   
+        <div id="uploadOutput"></div> 
         
+        {% if photos is defined %}
+            {% for ph in photos %}
+                <div name="ph_{{ ph.id }}" id="ph_{{ ph.id }}" >
+                    <a href="#" onclick="Remove('{{ ph.id }}');$('#ph_{{ ph.id }}').hide();return;">удалить</a>
+                    <img src="{{ ph.path }}" style="width: 250px; height: 150px;"/>
+                </div>
+            {% endfor %}
+        {% endif %}
     </form>
 {% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'WebBundle::layout.html.twig' %}
+
+{% block title 'Недвижимость.' %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <div class="col-md-9">
+        <div class="row">
+            <h1>Каталог</h1>
+            {% for obj in objects %}
+                <div class="col-sm-4 col-lg-4 col-md-4">
+                    <div class="thumbnail">
+                        <img src="{% if obj.path is defined and obj.path != ''%}{{ obj.path }}{% else %}http://placehold.it/320x320{% endif %}" alt="">
+                        <div class="caption">
+                            <h4 class="pull-right">{{ obj.price }} руб.</h4>
+                            <h4><a href="{{ path("_item", {item: obj.id}) }}">{{ obj.stype }}</a>
+                            </h4>
+                            <p>{{ obj.title }}</p>
+                            <p>{{ obj.address }}</p>
+                            <p>Телефон: {{ obj.phone }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+
+{% endblock %}

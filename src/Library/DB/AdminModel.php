@@ -48,5 +48,27 @@ class AdminModel extends CModel
         $sql = "DELETE FROM admin WHERE id=$id";
         return self::mysqlQuery($sql);
     }
+    
+    public static function loginUser($login, $passwd)
+    {
+        $sql = "SELECT id, login FROM admin WHERE login='".$login."' AND passwd='".$passwd."'";
+        $array = self::getAssocArray(self::mysqlQuery($sql));
+        
+        return $array;
+    }
+    
+    public static function getPhotosById($id)
+    {
+        $sql = "SELECT path, id FROM photo WHERE Idobject=$id";
+        $array = self::getAssocArray(self::mysqlQuery($sql));
+        
+        return $array;
+    }
+    
+    public static function removePhotos($id)
+    {
+        $sql = "DELETE FROM photo WHERE Id=$id";
+        return self::mysqlQuery($sql);
+    }
 }
 ?>

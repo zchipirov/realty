@@ -1,0 +1,85 @@
+{% extends 'WebBundle::layout.html.twig' %}
+
+{% block title 'Недвижимость.' %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <div class="col-md-9">
+    <div class="row carousel-holder">
+
+            <h1>Объект</h1>
+            {% if photos is defined and photos|length>0 %}
+                <div class="col-md-12">
+                    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            {% set val = 0 %}
+                            {% for ph in photos %}
+                                <li data-target="#carousel-example-generic" data-slide-to="{{ val }}"></li>
+                                {% set val = val + 1 %}
+                            {% endfor %}
+                        </ol>
+                        <div class="carousel-inner">
+                            {% for ph in photos %}
+                                <div class="item active">
+                                    <img class="slide-image" src="{{ ph.path }}" alt="">
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left"></span>
+                        </a>
+                        <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                        </a>
+                    </div>
+                </div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br><br>
+            <br>
+            {% endif %}
+            
+            <h1>{{ object[0].title }}</h1>
+            <table style="margin: 15px; padding: 15px;">
+                <tr>
+                    <td>Адрес: </td>
+                    <td>{{ object[0].address }}</td>
+                </tr>
+                <tr>
+                    <td>Вид объекта: </td>
+                    <td>{{ object[0].stype }}</td>
+                </tr>
+                <tr>
+                    <td>Опции: </td>
+                    <td>{{ object[0].soption }}</td>
+                </tr>
+                <tr>
+                    <td>Площадь (м2): </td>
+                    <td>{{ object[0].area }}</td>
+                </tr>
+                <tr>
+                    <td>Количество комнат: </td>
+                    <td>{{ object[0].rooms }}</td>
+                </tr>
+                <tr>
+                    <td>Стоимость (руб.): </td>
+                    <td>{{ object[0].price }}</td>
+                </tr>
+                <tr>
+                    <td>Телефон: </td>
+                    <td><b>{{ object[0].phone }}</b></td>
+                </tr>
+            </table>
+                <br>
+                <b>Описание:</b><Br>
+                <p style="width: 90%; word-wrap: break-word;">{{ object[0].sdesc }}</p>
+    </div>
+    </div>
+    
+{% endblock %}
